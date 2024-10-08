@@ -1,0 +1,47 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minha-aplicacao-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:regiao:conta:certificado/ID
+    alb.ingress.kubernetes.io/target-group-attributes: "deregistration_delay.timeout_seconds=60"
+spec:
+  rules:
+    - host: minha-aplicacao1.com
+      http:
+        paths:
+          - path: /*
+            pathType: Prefix
+            backend:
+              service:
+                name: minha-aplicacao1-service
+                port:
+                  number: 80
+          - path: /health/ready
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minha-aplicacao1-service
+                port:
+                  number: 80
+    - host: minha-aplicacao2.com
+      http:
+        paths:
+          - path: /*
+            pathType: Prefix
+            backend:
+              service:
+                name: minha-aplicacao2-service
+                port:
+                  number: 80
+          - path: /health/ready
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: minha-aplicacao2-service
+                port:
+                  number: 80

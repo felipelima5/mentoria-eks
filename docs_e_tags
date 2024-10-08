@@ -1,0 +1,22 @@
+1° https://docs.aws.amazon.com/pt_br/eks/latest/userguide/enable-iam-roles-for-service-accounts.html    (Criar Um Provedor de OIDC)
+
+2° https://eksctl.io/installation  (Instalar EKSCTL)
+
+3° https://docs.aws.amazon.com/pt_br/eks/latest/userguide/alb-ingress.html       (Doc que contem as tags necessárias nas subnets)
+
+4° https://docs.aws.amazon.com/pt_br/eks/latest/userguide/aws-load-balancer-controller.html  (Instalar AWS LoadBalancer Controller)
+
+
+---------------------------------------------------------------
+
+SUBNETS
+kubernetes.io/cluster/my-cluster = shared
+
+
+SUBNETS PRIVADAS
+kubernetes.io/role/internal-elb = 1
+
+SUBNETS PUBLICAS
+kubernetes.io/role/elb = 1
+
+----------------------------------------------------------------
