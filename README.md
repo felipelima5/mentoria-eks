@@ -3,17 +3,17 @@
 ### Criar um provedor de OIDC para o seu Cluster
 ```
 cluster_name=app-prod
-oidc_id=$(aws eks describe-cluster --profile p --region us-east-2 --name $cluster_name --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
+oidc_id=$(aws eks describe-cluster --region us-east-1 --name $cluster_name --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
 ```
 
 ```
-aws iam list-open-id-connect-providers --profile p | grep $oidc_id    
+aws iam list-open-id-connect-providers | grep $oidc_id    
 ```
 
 
 ### Se nenhum resultado for retornado no comando acima, execute o comando abaixo !
 ```
-eksctl utils associate-iam-oidc-provider --profile p --region us-east-2 --cluster $cluster_name --approve
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster $cluster_name --approve
 ```
 
 # Instale o Kubectx e Kubens
@@ -60,14 +60,14 @@ curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-cont
 
 ### Crie a Política através do AWS IAM
 ```
-aws iam create-policy --profile p --region us-east-2 \
+aws iam create-policy --region us-east-1 \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam_policy.json
 ```
 
 ### Crie um service Account para o AWS LoadBalancer Controller
 ```
-eksctl create iamserviceaccount --profile p --region us-east-2 \
+eksctl create iamserviceaccount --region us-east-1 \
   --cluster=app-prod \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
